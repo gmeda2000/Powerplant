@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Access</title>
+</head>
+<body>
+    <h1>Database Access Page</h1>
+    <form id="dbForm">
+        <label for="query">Enter SQL Query:</label>
+        <input type="text" id="query" name="query" required>
+        <button type="submit">Execute</button>
+    </form>
+    <pre id="result"></pre>
+    <script>
+        document.getElementById('dbForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const query = document.getElementById('query').value;
+            const response = await fetch('/execute_query', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query })
+            });
+            const result = await response.text();
+            document.getElementById('result').innerText = result;
+        });
+    </script>
+</body>
+</html>
